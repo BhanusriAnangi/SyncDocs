@@ -23,6 +23,11 @@ export const metadata: Metadata = {
     template: `%s | ${APP_NAME}`,
   },
   description: APP_DESCRIPTION,
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
   keywords: [
     "collaborative editor",
     "offline-first",

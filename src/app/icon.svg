@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <!-- Neo-Brutalist Shadow -->
+  <rect x="4" y="4" width="26" height="26" rx="7" fill="#5cdb95"/>
+  <!-- Main Badge Box -->
+  <rect x="2" y="2" width="26" height="26" rx="7" fill="#0f172a" stroke="#0f172a" stroke-width="2"/>
+  <!-- Document Sheet -->
+  <path d="M9 7H17L21 11V21C21 22.1 20.1 23 19 23H9C7.9 23 7 22.1 7 21V9C7 7.9 7.9 7 9 7Z" fill="#5cdb95"/>
+  <!-- Folded Corner -->
+  <path d="M17 7V11H21" stroke="#0f172a" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
+  <!-- S Letter Accent -->
+  <text x="13.5" y="19.5" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="11" fill="#0f172a" text-anchor="middle">S</text>
+</svg>
