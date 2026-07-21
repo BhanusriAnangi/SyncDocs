@@ -9,6 +9,9 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: "file:./dev.db"
+      AUTH_SECRET: "ci-secret-key-for-testing-purposes-only-32chars"
 
     steps:
       - name: Checkout Code
@@ -33,6 +36,3 @@ jobs:
 
       - name: Build Production Next.js App
         run: npm run build
-        env:
-          AUTH_SECRET: "ci-secret-key-for-testing-purposes-only-32chars"
-          DATABASE_URL: "file:./dev.db"
