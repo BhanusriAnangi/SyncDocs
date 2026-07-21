@@ -47,10 +47,11 @@ SyncDocs is built on a **Local-First Architecture**. Unlike traditional web apps
 ### 🔄 2. Background Sync Engine (Outbox Pattern)
 - **Automatic Queueing**: Edits while offline are stored in a local `syncQueue` table marked as `PENDING`.
 - **Connectivity Detection**: Listens to browser `online`/`offline` events and triggers background reconciliation instantly on network restoration.
-- **Exponential Backoff with Jitter**: If sync fails (e.g., flaky network), the engine retries with delays calculated via $E(r) = \min(\text{base} \times 2^r, \text{max}) \pm \text{jitter}$ to prevent thundering herd traffic.
+- **Exponential Backoff with Jitter**: Retries failed sync attempts with delays calculated via $E(r) = \min(\text{base} \times 2^r, \text{max}) \pm \text{jitter}$ to prevent server traffic spikes.
 
-### 🛡️ 3. Deterministic Conflict Resolution (CRDT with Yjs)
-- **Mathematically Proven Convergence**: Uses **Yjs Conflict-free Replicated Data Types (CRDT)**. Concurrent offline edits by multiple users merge deterministically without data loss or overwrites.
+### 🛡️ 3. Conflict-Free Synchronization (CRDT with Yjs)
+- **Why CRDT over Operational Transformation (OT)**: OT requires a central server to dictate global operation sequence locks. **CRDTs (Conflict-free Replicated Data Types)** allow decentralized, offline editing where clients independently merge binary state vectors without server locking.
+- **State Vector Merging**: Yjs state vectors track document updates and merge concurrent offline edits deterministically.
 - **Dual-State Representation**: Stores binary Yjs state vectors for merging alongside JSON structures for instant rendering and AI processing.
 
 ### 📜 4. Version History & Safe Time-Travel
@@ -117,13 +118,13 @@ syncdocs/
 ### Installation
 ```bash
 # 1. Clone repository
-git clone https://github.com/yourusername/syncdocs.git
+git clone https://github.com/BhanusriAnangi/SyncDocs.git
 cd syncdocs
 
 # 2. Install dependencies
 npm install --legacy-peer-deps
 
-# 3. Initialize Database (SQLite for local dev or PostgreSQL for production)
+# 3. Initialize Database (SQLite for zero-dependency local dev, or PostgreSQL for production)
 npx prisma db push
 npx prisma generate
 
@@ -133,24 +134,27 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+> **Note on Database Provider:**  
+> For local evaluation, SQLite (`file:./dev.db`) is configured for zero-dependency setup. To connect to PostgreSQL (e.g. Neon), simply change `provider = "postgresql"` in `prisma/schema.prisma` and update `DATABASE_URL` in `.env`.
+
 ---
 
 ## 🧪 Running Automated Tests
 
-SyncDocs includes automated test suites covering CRDT conflict resolution and sync engine exponential backoff:
+SyncDocs includes automated test suites for CRDT conflict resolution and sync engine exponential backoff:
 
 ```bash
 npm test
 ```
 
-**Expected Output:**
+**Output Preview:**
 ```
 ==========================================
    SYNC DOCS AUTOMATED TEST RUNNER        
 ==========================================
 🧪 Running CRDT Conflict Resolution Tests...
 ✅ Test 1 Passed: Deterministic CRDT Convergence verified.
-✅ Test 2 Passed: Zero data loss verified.
+✅ Test 2 Passed: Data reconciliation verified.
 🎉 All CRDT Conflict Resolution tests passed successfully!
 🧪 Running Sync Engine Backoff Tests...
 ✅ Test 1 Passed: Exponential backoff growth verified.
@@ -158,7 +162,7 @@ npm test
 🎉 All Sync Engine Backoff tests passed successfully!
 
 ==========================================
- ALL TEST SUITES PASSED CLEANLY (100%)    
+  ALL TEST SUITES PASSED CLEANLY
 ==========================================
 ```
 
@@ -185,5 +189,5 @@ npm test
 - **Email**: ✉️ [bhanuannagi1@gmail.com](mailto:bhanuannagi1@gmail.com)
 - **Portfolio**: [https://personal-portfolio-latest-sooty.vercel.app/](https://personal-portfolio-latest-sooty.vercel.app/)
 - **LinkedIn**: [https://www.linkedin.com/in/bhanu-sri-anangi-2963b3248](https://www.linkedin.com/in/bhanu-sri-anangi-2963b3248)
-- **GitHub**: [https://github.com/Bhanu-sri-12](https://github.com/Bhanu-sri-12)
+- **GitHub**: [https://github.com/BhanusriAnangi](https://github.com/BhanusriAnangi)
 - **Submission**: House of EdTech — Fullstack Developer Assignment 2 (v2.1, April 2026)
