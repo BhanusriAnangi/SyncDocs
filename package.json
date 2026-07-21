@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma db push && next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node tests/run-tests.js"
+    "test": "node tests/run-tests.js",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.18",
