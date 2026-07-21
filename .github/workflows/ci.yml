@@ -1,0 +1,38 @@
+name: CI / Build & Test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Initialize Local Database (SQLite)
+        run: |
+          npx prisma db push
+          npx prisma generate
+
+      - name: Run Automated Test Suites
+        run: npm test
+
+      - name: Build Production Next.js App
+        run: npm run build
+        env:
+          AUTH_SECRET: "ci-secret-key-for-testing-purposes-only-32chars"
+          DATABASE_URL: "file:./dev.db"
