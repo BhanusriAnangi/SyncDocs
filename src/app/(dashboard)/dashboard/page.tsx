@@ -233,9 +233,9 @@ export default function DashboardPage() {
                   {doc.role}
                 </span>
 
-                <span className="text-[10px] font-bold text-slate-400 group-hover:text-slate-900 transition-colors">
+                {/* <span className="text-[10px] font-bold text-slate-400 group-hover:text-slate-900 transition-colors">
                   Open $\rightarrow$
-                </span>
+                </span> */}
               </div>
             </div>
           ))}
